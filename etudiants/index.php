@@ -78,6 +78,21 @@ try {
         </div>
 
         <!-- ========================================
+             SECTION: RECHERCHE
+             ======================================== -->
+        <div style="margin-bottom: 30px;">
+            <div class="form-group">
+                <label for="searchInput">🔍 Rechercher un étudiant</label>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Recherchez par nom, prénom ou filière..."
+                    style="margin-bottom: 0;"
+                >
+            </div>
+        </div>
+
+        <!-- ========================================
              SECTION: LISTE DES ÉTUDIANTS
              ======================================== -->
         <h2>Liste des étudiants</h2>

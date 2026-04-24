@@ -130,6 +130,17 @@ select option {
     padding: 10px;
 }
 
+/* Style spécifique pour le champ de recherche */
+#searchInput {
+    font-size: 15px !important;
+    background: linear-gradient(135deg, var(--bg-light) 0%, #f0f4ff 100%) !important;
+    border: 2px solid var(--primary-light) !important;
+}
+
+#searchInput:focus {
+    border-color: var(--primary) !important;
+}
+
 /* ============================================
    BOUTONS
    ============================================ */
