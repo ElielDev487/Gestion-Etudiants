@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             
             <!-- Lien pour revenir -->
             <div style="text-align: center; margin-top: 20px;">
-                <a href="../index.php" class="btn" style="width: auto; display: inline-block;">← Retour</a>
+                <a href="index.php" class="btn" style="width: auto; display: inline-block;">← Retour</a>
             </div>
         </div>
         
@@ -186,8 +186,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Message de succès
         $_SESSION['success'] = 'Étudiant modifié avec succès!';
         
-        // Rediriger vers la page principale
-        header('Location: ../index.php');
+        // Rediriger vers la page principale (liste des étudiants)
+        header('Location: index.php');
         exit;
         
     } catch (PDOException $e) {

@@ -20,7 +20,7 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 // Vérifier que l'ID est valide
 if ($id === 0) {
     $_SESSION['errors'] = ['ID étudiant invalide'];
-    header('Location: ../index.php');
+    header('Location: index.php');
     exit;
 }
 
@@ -38,8 +38,8 @@ try {
         $_SESSION['errors'] = ['Étudiant non trouvé'];
     }
     
-    // Rediriger vers la page principale
-    header('Location: ../index.php');
+    // Rediriger vers la page principale (liste des étudiants)
+    header('Location: index.php');
     exit;
     
 } catch (PDOException $e) {
