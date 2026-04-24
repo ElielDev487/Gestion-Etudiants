@@ -9,6 +9,9 @@
  * - Affiche la liste des étudiants (TODO: Partie 8)
  */
 
+// Démarrer la session pour gérer les messages
+session_start();
+
 // Inclure la connexion à la base de données
 require_once(__DIR__ . '/config/database.php');
 
@@ -38,11 +41,29 @@ try {
     <div class="container">
         <h1>📚 Gestion des Étudiants</h1>
 
-        <!-- Afficher un message d'erreur s'il y en a une -->
+        <!-- Afficher un message d'erreur général s'il y en a une -->
         <?php if (isset($error)): ?>
             <div class="alert alert-danger">
                 <?php echo $error; ?>
             </div>
+        <?php endif; ?>
+
+        <!-- Afficher les messages de succès -->
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success">
+                ✅ <?php echo $_SESSION['success']; ?>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <!-- Afficher les messages d'erreur de la session -->
+        <?php if (isset($_SESSION['errors'])): ?>
+            <div class="alert alert-danger">
+                <?php foreach ($_SESSION['errors'] as $error): ?>
+                    <div>❌ <?php echo $error; ?></div>
+                <?php endforeach; ?>
+            </div>
+            <?php unset($_SESSION['errors']); ?>
         <?php endif; ?>
 
         <!-- ========================================
