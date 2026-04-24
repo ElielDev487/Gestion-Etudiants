@@ -15,16 +15,26 @@ session_start();
 // Inclure la connexion à la base de données
 require_once(__DIR__ . '/config/database.php');
 
-// Variable pour stocker les filières
+// Variable pour stocker les filières et les étudiants
 $filieres = [];
+$etudiants = [];
 
 try {
     // Récupérer toutes les filières de la base de données
     $stmt = $pdo->query('SELECT id, nom FROM filieres ORDER BY nom');
     $filieres = $stmt->fetchAll();
+    
+    // Récupérer tous les étudiants avec leur filière (jointure)
+    $stmt = $pdo->query('
+        SELECT e.id, e.nom, e.prenom, f.nom AS filiere_nom
+        FROM etudiants e
+        LEFT JOIN filieres f ON e.filiere_id = f.id
+        ORDER BY e.nom, e.prenom
+    ');
+    $etudiants = $stmt->fetchAll();
 } catch (PDOException $e) {
     // Afficher le message d'erreur si la requête échoue
-    $error = 'Erreur lors de la récupération des filières: ' . $e->getMessage();
+    $error = 'Erreur lors de la récupération: ' . $e->getMessage();
 }
 ?>
 
@@ -121,9 +131,58 @@ try {
 
         <!-- ========================================
              SECTION: LISTE DES ÉTUDIANTS
-             TODO: À implémenter à la Partie 8
              ======================================== -->
-        <!-- La liste des étudiants sera affichée ici -->
+        <h2>Liste des étudiants</h2>
+        
+        <?php if (empty($etudiants)): ?>
+            <!-- Afficher un message si aucun étudiant -->
+            <div class="alert alert-info">
+                ℹ️ Aucun étudiant enregistré pour le moment.
+            </div>
+        <?php else: ?>
+            <!-- Tableau des étudiants -->
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Filière</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($etudiants as $etudiant): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($etudiant['nom']); ?></td>
+                                <td><?php echo htmlspecialchars($etudiant['prenom']); ?></td>
+                                <td><?php echo htmlspecialchars($etudiant['filiere_nom']); ?></td>
+                                <td>
+                                    <div class="actions">
+                                        <!-- Bouton Modifier -->
+                                        <a 
+                                            href="etudiants/update.php?id=<?php echo $etudiant['id']; ?>" 
+                                            class="btn btn-warning"
+                                        >
+                                            ✏️ Modifier
+                                        </a>
+                                        
+                                        <!-- Bouton Supprimer avec confirmation -->
+                                        <a 
+                                            href="etudiants/delete.php?id=<?php echo $etudiant['id']; ?>" 
+                                            class="btn btn-danger"
+                                            onclick="return confirmerSuppression(<?php echo $etudiant['id']; ?>)"
+                                        >
+                                            🗑️ Supprimer
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
 
     </div>
 
